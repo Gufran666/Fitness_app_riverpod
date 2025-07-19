@@ -1,16 +1,29 @@
+import 'package:fitness_app_riverpod/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fitness_app_riverpod/screens/login_screen.dart';
-import 'package:fitness_app_riverpod/screens/signup_screen.dart';
 import 'package:fitness_app_riverpod/providers/auth_provider.dart';
 import 'package:fitness_app_riverpod/utils/theme.dart';
+import 'package:fitness_app_riverpod/services/notification_service.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final notificationService = NotificationService();
+  notificationService.initialize();
+
+  runApp(
+    ProviderScope(
+      child: MyApp(notificationService: notificationService),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+  final NotificationService notificationService;
+
+  const MyApp({super.key, required this.notificationService});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,8 +36,9 @@ class MyApp extends ConsumerWidget {
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
       routes: {
-        '/': (context) => LoginScreen(),
-        '/signup': (context) => SignUpScreen(),
+        '/': (context) =>  LoginScreen(),
+        '/notifications': (context) => const NotificationsScreen(),
+
       },
     );
   }
