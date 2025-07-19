@@ -21,7 +21,7 @@ class MyApp extends ConsumerWidget {
       title: 'Fitness App',
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: Thememode.system,
+      themeMode: ThemeMode.system,
       routes: {
         '/': (context) => LoginScreen(),
         '/signup': (context) => SignUpScreen(),
